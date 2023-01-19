@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.schneewittchen.rosandroid"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 7
         versionName '2.1.0'
@@ -61,6 +61,9 @@ dependencies {
     implementation 'org.ros.rosjava_messages:sensor_msgs:1.12.7'
     implementation 'org.ros.rosjava_messages:std_msgs:0.5.11'
     implementation 'org.ros.rosjava_messages:tf2_msgs:0.5.20'
+
+    // ROS2
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Room
     implementation "androidx.room:room-runtime:2.4.3"
