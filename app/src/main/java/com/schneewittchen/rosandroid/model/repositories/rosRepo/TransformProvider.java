@@ -1,6 +1,6 @@
 package com.schneewittchen.rosandroid.model.repositories.rosRepo;
 
-import org.ros.rosjava_geometry.FrameTransformTree;
+import com.schneewittchen.rosandroid.utility.ros.geometry.FrameTransformTree;
 
 /**
  * TODO: Description

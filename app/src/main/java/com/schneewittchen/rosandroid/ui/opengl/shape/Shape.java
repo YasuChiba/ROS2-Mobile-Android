@@ -18,8 +18,7 @@ package com.schneewittchen.rosandroid.ui.opengl.shape;
 
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.OpenGlDrawable;
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.ROSColor;
-
-import org.ros.rosjava_geometry.Transform;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Transform;
 
 
 /**

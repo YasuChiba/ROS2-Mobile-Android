@@ -4,8 +4,7 @@ import com.google.common.base.Preconditions;
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.OpenGlTransform;
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.ROSColor;
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.VisualizationView;
-
-import org.ros.rosjava_geometry.Transform;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Transform;
 
 import javax.microedition.khronos.opengles.GL10;
 

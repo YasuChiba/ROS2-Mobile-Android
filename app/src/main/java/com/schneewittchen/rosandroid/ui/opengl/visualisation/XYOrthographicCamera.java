@@ -18,13 +18,12 @@ package com.schneewittchen.rosandroid.ui.opengl.visualisation;
 
 import com.google.common.base.Preconditions;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.TransformProvider;
-
-import org.ros.math.RosMath;
-import org.ros.namespace.GraphName;
-import org.ros.rosjava_geometry.FrameTransform;
-import org.ros.rosjava_geometry.FrameTransformTree;
-import org.ros.rosjava_geometry.Transform;
-import org.ros.rosjava_geometry.Vector3;
+import com.schneewittchen.rosandroid.utility.ros.geometry.FrameTransform;
+import com.schneewittchen.rosandroid.utility.ros.geometry.FrameTransformTree;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Transform;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Vector3;
+import com.schneewittchen.rosandroid.utility.ros.math.RosMath;
+import com.schneewittchen.rosandroid.utility.ros.namespace.GraphName;
 
 import javax.microedition.khronos.opengles.GL10;
 

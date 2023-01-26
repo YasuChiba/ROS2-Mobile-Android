@@ -19,7 +19,7 @@ package com.schneewittchen.rosandroid.ui.opengl.visualisation;
 
 import android.view.MotionEvent;
 
-import org.ros.math.RosMath;
+import com.schneewittchen.rosandroid.utility.ros.math.RosMath;
 
 
 /**

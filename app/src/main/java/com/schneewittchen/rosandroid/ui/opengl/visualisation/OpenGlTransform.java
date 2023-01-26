@@ -16,7 +16,7 @@
 
 package com.schneewittchen.rosandroid.ui.opengl.visualisation;
 
-import org.ros.rosjava_geometry.Transform;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Transform;
 
 import java.nio.FloatBuffer;
 

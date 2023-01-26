@@ -10,14 +10,14 @@ package com.schneewittchen.rosandroid.ui.opengl.visualisation;
  */
 
 import com.google.common.base.Preconditions;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Transform;
+import com.schneewittchen.rosandroid.utility.ros.message.MessageBuffers;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.ros.internal.message.MessageBuffers;
-import org.ros.rosjava_geometry.Transform;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import nav_msgs.OccupancyGrid;
+//import nav_msgs.OccupancyGrid;
 
 
 public class Tile {

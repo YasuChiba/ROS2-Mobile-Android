@@ -5,8 +5,7 @@ import android.view.MotionEvent;
 
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.VisualizationView;
-
-import org.ros.namespace.GraphName;
+import com.schneewittchen.rosandroid.utility.ros.namespace.GraphName;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

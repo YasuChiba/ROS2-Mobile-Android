@@ -21,8 +21,7 @@ import android.opengl.GLSurfaceView;
 
 import com.schneewittchen.rosandroid.R;
 import com.schneewittchen.rosandroid.ui.views.widgets.LayerView;
-
-import org.ros.namespace.GraphName;
+import com.schneewittchen.rosandroid.utility.ros.namespace.GraphName;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

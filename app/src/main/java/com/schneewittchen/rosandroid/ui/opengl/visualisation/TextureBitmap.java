@@ -20,9 +20,9 @@ import android.graphics.Bitmap;
 import android.opengl.GLUtils;
 
 import com.google.common.base.Preconditions;
+import com.schneewittchen.rosandroid.utility.ros.geometry.Transform;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.ros.rosjava_geometry.Transform;
 
 import java.nio.FloatBuffer;
 
