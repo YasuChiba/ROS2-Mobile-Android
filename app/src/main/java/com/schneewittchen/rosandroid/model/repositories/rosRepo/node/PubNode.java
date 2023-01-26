@@ -2,10 +2,10 @@ package com.schneewittchen.rosandroid.model.repositories.rosRepo.node;
 
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.PublisherLayerEntity;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 
-import org.ros.internal.message.Message;
-import org.ros.node.ConnectedNode;
-import org.ros.node.topic.Publisher;
+import org.ros2.rcljava.interfaces.MessageDefinition;
+import org.ros2.rcljava.publisher.Publisher;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,19 +21,25 @@ import java.util.TimerTask;
  */
 public class PubNode extends AbstractNode {
 
-    private Publisher<Message> publisher;
+    private Publisher<MessageDefinition> publisher;
     private BaseData lastData;
     private Timer pubTimer;
     private long pubPeriod = 100L;
     private boolean immediatePublish = true;
 
+    public PubNode(Topic topic, BaseEntity widget) {
+        super(topic);
+        this.topic = topic;
+        this.widget = widget;
+        if (!(widget instanceof PublisherLayerEntity)) {
+            return;
+        }
 
-    @Override
-    public void onStart(ConnectedNode parentNode) {
-        publisher = parentNode.newPublisher(topic.name, topic.type);
+        this.publisher = this.node.createPublisher(topic.type, topic.name);
 
-        this.createAndStartSchedule();
-    }
+        PublisherLayerEntity pubEntity = (PublisherLayerEntity) widget;
+        this.setImmediatePublish(pubEntity.immediatePublish);
+        this.setFrequency(pubEntity.publishRate);    }
 
     /**
      * Call this method to publish a ROS message.
@@ -95,21 +101,7 @@ public class PubNode extends AbstractNode {
             return;
         }
 
-        Message message = lastData.toRosMessage(publisher, widget);
+        MessageDefinition message = lastData.toRosMessage(publisher, widget);
         publisher.publish(message);
-    }
-
-    @Override
-    public void setWidget(BaseEntity widget) {
-        super.setWidget(widget);
-
-        if (!(widget instanceof PublisherLayerEntity)) {
-            return;
-        }
-
-        PublisherLayerEntity pubEntity = (PublisherLayerEntity) widget;
-
-        this.setImmediatePublish(pubEntity.immediatePublish);
-        this.setFrequency(pubEntity.publishRate);
     }
 }

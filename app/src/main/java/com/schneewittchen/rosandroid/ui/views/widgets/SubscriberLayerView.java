@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.schneewittchen.rosandroid.ui.opengl.visualisation.VisualizationView;
 
-import org.ros.internal.message.Message;
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -24,7 +24,7 @@ public abstract class SubscriberLayerView extends LayerView implements ISubscrib
 
 
     @Override
-    public void onNewMessage(Message message) {
+    public void onNewMessage(MessageDefinition message) {
         return;
     }
 

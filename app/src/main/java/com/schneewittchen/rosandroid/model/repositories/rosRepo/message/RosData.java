@@ -1,6 +1,6 @@
 package com.schneewittchen.rosandroid.model.repositories.rosRepo.message;
 
-import org.ros.internal.message.Message;
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 /**
  * TODO: Description
@@ -14,10 +14,10 @@ import org.ros.internal.message.Message;
 public class RosData {
 
     private final Topic topic;
-    private final Message message;
+    private final MessageDefinition message;
 
 
-    public RosData(Topic topic, Message message) {
+    public RosData(Topic topic, MessageDefinition message) {
         this.topic = topic;
         this.message = message;
     }
@@ -27,7 +27,7 @@ public class RosData {
         return this.topic;
     }
 
-    public Message getMessage() {
+    public MessageDefinition getMessage() {
         return this.message;
     }
 }

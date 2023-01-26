@@ -5,6 +5,8 @@ import android.view.View;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.viewmodel.DetailsViewModel;
 
+import org.ros2.rcljava.interfaces.MessageDefinition;
+
 import java.util.List;
 
 
@@ -28,7 +30,7 @@ public abstract class PublisherWidgetViewHolder extends DetailViewHolder {
     }
 
 
-    public abstract List<String> getTopicTypes();
+    public abstract List<Class<? extends MessageDefinition>> getTopicTypes();
 
 
     @Override

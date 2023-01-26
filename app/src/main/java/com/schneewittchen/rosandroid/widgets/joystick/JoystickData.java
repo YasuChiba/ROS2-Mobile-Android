@@ -3,12 +3,11 @@ package com.schneewittchen.rosandroid.widgets.joystick;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
 
-import org.ros.internal.message.Message;
-import org.ros.node.topic.Publisher;
+import org.ros2.rcljava.interfaces.MessageDefinition;
+import org.ros2.rcljava.publisher.Publisher;
 
-import geometry_msgs.Twist;
-import geometry_msgs.Vector3;
-
+import geometry_msgs.msg.Twist;
+import geometry_msgs.msg.Vector3;
 
 /**
  * TODO: Description
@@ -32,13 +31,13 @@ public class JoystickData extends BaseData {
     }
 
     @Override
-    public Message toRosMessage(Publisher<Message> publisher, BaseEntity widget) {
+    public MessageDefinition toRosMessage(Publisher<MessageDefinition> publisher, BaseEntity widget) {
         JoystickEntity joyWidget = (JoystickEntity) widget;
 
         float xAxisValue = joyWidget.xScaleLeft + (joyWidget.xScaleRight - joyWidget.xScaleLeft) * ((x + 1) / 2f);
         float yAxisValue = joyWidget.yScaleLeft + (joyWidget.yScaleRight - joyWidget.yScaleLeft) * ((y + 1) / 2f);
 
-        geometry_msgs.Twist message = (Twist) publisher.newMessage();
+        Twist message = new Twist();
 
         for (int i = 0; i < 2; i++) {
             String[] splitMapping = (i == 0 ? joyWidget.xAxisMapping : joyWidget.yAxisMapping).split("/");

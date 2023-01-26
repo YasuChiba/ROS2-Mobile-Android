@@ -30,7 +30,8 @@ import com.schneewittchen.rosandroid.ui.views.widgets.IPublisherView;
 import com.schneewittchen.rosandroid.ui.views.widgets.ISubscriberView;
 import com.schneewittchen.rosandroid.ui.views.widgets.LayerView;
 
-import org.ros.internal.message.Message;
+
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,7 +126,7 @@ public class VisualizationView extends GLSurfaceView {
     }
 
     public void onNewData(RosData data) {
-        Message message = data.getMessage();
+        MessageDefinition message = data.getMessage();
         Topic topic = data.getTopic();
         boolean dirtyView = false;
 

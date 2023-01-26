@@ -48,9 +48,13 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 
+    implementation "com.google.guava:guava:31.0.1-jre"
+    implementation group: 'org.jboss.netty', name: 'netty', version: '3.2.0.Final'
 
     // ROS
     // For additional ros repos see https://github.com/rosjava/rosjava_mvn_repo/tree/master/org/ros
+
+    /*
     implementation "org.ros.rosjava_core:rosjava:0.3.6"
     implementation "org.ros.rosjava_core:rosjava_geometry:0.3.6"
     implementation 'org.ros.rosjava_bootstrap:message_generation:0.3.3'
@@ -62,8 +66,11 @@ dependencies {
     implementation 'org.ros.rosjava_messages:std_msgs:0.5.11'
     implementation 'org.ros.rosjava_messages:tf2_msgs:0.5.20'
 
+
+     */
+
     // ROS2
-    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Room
     implementation "androidx.room:room-runtime:2.4.3"

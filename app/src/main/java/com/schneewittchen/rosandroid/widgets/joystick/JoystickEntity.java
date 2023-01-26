@@ -3,7 +3,7 @@ package com.schneewittchen.rosandroid.widgets.joystick;
 import com.schneewittchen.rosandroid.model.entities.widgets.PublisherWidgetEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 
-import geometry_msgs.Twist;
+import geometry_msgs.msg.Twist;
 
 
 /**
@@ -28,7 +28,7 @@ public class JoystickEntity extends PublisherWidgetEntity {
     public JoystickEntity() {
         this.width = 4;
         this.height = 4;
-        this.topic = new Topic("cmd_vel", Twist._TYPE);
+        this.topic = new Topic("cmd_vel", Twist.class);
         this.immediatePublish = false;
         this.publishRate = 20f;
         this.xAxisMapping = "Angular/Z";

@@ -1,10 +1,11 @@
 package com.schneewittchen.rosandroid.model.repositories.rosRepo.node;
 
+import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 
-import org.ros.internal.message.Message;
-import org.ros.node.ConnectedNode;
-import org.ros.node.topic.Subscriber;
+import org.ros2.rcljava.interfaces.MessageDefinition;
+import org.ros2.rcljava.subscription.Subscription;
 
 
 /**
@@ -17,34 +18,17 @@ import org.ros.node.topic.Subscriber;
 public class SubNode extends AbstractNode {
 
     private final NodeListener listener;
+    private Subscription<MessageDefinition> subscription;
 
-    public SubNode(NodeListener listener) {
+    public SubNode(NodeListener listener, Topic topic, BaseEntity widget) {
+        super(topic);
+        this.topic = topic;
+        this.widget = widget;
+
         this.listener = listener;
-    }
-
-    @Override
-    public void onStart(ConnectedNode parentNode) {
-        super.onStart(parentNode);
-
-        try {
-            if (this.widget != null) {
-                this.widget.validMessage = true;
-            }
-
-            Subscriber<? extends Message> subscriber = parentNode.newSubscriber(topic.name, topic.type);
-
-            subscriber.addMessageListener(data -> {
-                lastRosData = new RosData(topic, data);
-                listener.onNewMessage(lastRosData);
-            });
-
-        } catch (Exception e) {
-            if (this.widget != null) {
-                this.widget.validMessage = false;
-            }
-            e.printStackTrace();
-        }
-
+        this.subscription = this.node.createSubscription(topic.type, topic.name, data -> {
+            this.listener.onNewMessage(new RosData(topic, data));
+        });
     }
 
     public interface NodeListener {

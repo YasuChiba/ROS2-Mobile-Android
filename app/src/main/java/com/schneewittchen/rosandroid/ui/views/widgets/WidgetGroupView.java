@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 
-import org.ros.internal.message.Message;
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 
 /**
@@ -33,7 +33,7 @@ public abstract class WidgetGroupView extends WidgetView implements ISubscriberV
     public abstract void onNewData(RosData data);
 
     @Override
-    public void onNewMessage(Message message) {
+    public void onNewMessage(MessageDefinition message) {
         return;
     }
 }

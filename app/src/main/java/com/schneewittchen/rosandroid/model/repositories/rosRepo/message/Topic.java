@@ -1,6 +1,8 @@
 package com.schneewittchen.rosandroid.model.repositories.rosRepo.message;
 
 
+import org.ros2.rcljava.interfaces.MessageDefinition;
+
 /**
  * ROS topic class for subscriber/publisher nodes.
  *
@@ -18,10 +20,10 @@ public class Topic {
     /**
      * Type of the topic e.g. 'nav_msgs.OccupancyGrid'
      */
-    public String type = "";
+    public Class<? extends MessageDefinition> type;
 
 
-    public Topic(String name, String type) {
+    public Topic(String name, Class<? extends MessageDefinition> type) {
         this.name = name;
         this.type = type;
     }

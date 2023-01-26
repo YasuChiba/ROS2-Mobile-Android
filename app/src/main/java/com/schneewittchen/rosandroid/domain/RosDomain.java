@@ -4,13 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.schneewittchen.rosandroid.model.entities.MasterEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.ConfigRepository;
 import com.schneewittchen.rosandroid.model.repositories.ConfigRepositoryImpl;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.RosRepository;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.Ros2Repository;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.connection.ConnectionType;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
@@ -48,7 +49,7 @@ public class RosDomain {
 
     // Repositories
     private final ConfigRepository configRepository;
-    private final RosRepository rosRepo;
+    private final Ros2Repository rosRepo;
 
     // Data objects
     private final LiveData<List<BaseEntity>> currentWidgets;
@@ -56,7 +57,7 @@ public class RosDomain {
 
 
     private RosDomain(@NonNull Application application) {
-        this.rosRepo = RosRepository.getInstance(application);
+        this.rosRepo = Ros2Repository.getInstance(application);
         this.configRepository = ConfigRepositoryImpl.getInstance(application);
 
         // React on config change and get the new data
@@ -66,8 +67,8 @@ public class RosDomain {
         currentMaster = Transformations.switchMap(configRepository.getCurrentConfigId(),
                 configRepository::getMaster);
 
-        currentWidgets.observeForever(rosRepo::updateWidgets);
-        currentMaster.observeForever(rosRepo::updateMaster);
+       // currentWidgets.observeForever(rosRepo::updateWidgets);
+       // currentMaster.observeForever(rosRepo::updateMaster);
     }
 
 
@@ -117,15 +118,15 @@ public class RosDomain {
     }
 
     public void setMasterDeviceIp(String deviceIp) {
-        rosRepo.setMasterDeviceIp(deviceIp);
+        //rosRepo.setMasterDeviceIp(deviceIp);
     }
 
     public void connectToMaster() {
-        rosRepo.connectToMaster();
+        //rosRepo.connectToMaster();
     }
 
     public void disconnectFromMaster() {
-        rosRepo.disconnectFromMaster();
+        //rosRepo.disconnectFromMaster();
     }
 
     public LiveData<MasterEntity> getCurrentMaster() {
@@ -133,7 +134,9 @@ public class RosDomain {
     }
 
     public LiveData<ConnectionType> getRosConnection() {
-        return rosRepo.getRosConnectionStatus();
+        //return rosRepo.getRosConnectionStatus();
+        // TODO: maybe delete?
+        return new MutableLiveData<>(ConnectionType.CONNECTED);
     }
 
     public List<Topic> getTopicList() {

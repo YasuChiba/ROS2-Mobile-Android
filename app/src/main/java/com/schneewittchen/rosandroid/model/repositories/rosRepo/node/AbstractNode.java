@@ -6,11 +6,7 @@ import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 
-import org.ros.namespace.GraphName;
-import org.ros.node.ConnectedNode;
-import org.ros.node.Node;
-import org.ros.node.NodeMain;
-
+import org.ros2.rcljava.node.BaseComposableNode;
 
 /**
  * TODO: Description
@@ -19,13 +15,20 @@ import org.ros.node.NodeMain;
  * @version 1.0.0
  * @created on 15.09.20
  */
-public class AbstractNode implements NodeMain {
+public abstract class AbstractNode extends BaseComposableNode {
 
     public static final String TAG = AbstractNode.class.getSimpleName();
 
     protected Topic topic;
     protected BaseEntity widget;
     protected RosData lastRosData;
+
+    public AbstractNode(Topic topic) {
+        // set topic name as node name
+        super(topic.name);
+    }
+
+    /*
 
     @Override
     public void onStart(ConnectedNode parentNode) {
@@ -52,18 +55,10 @@ public class AbstractNode implements NodeMain {
         return GraphName.of(topic.name);
     }
 
+     */
 
     public Topic getTopic() {
         return this.topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-    }
-
-    public void setWidget(BaseEntity widget) {
-        this.widget = widget;
-        this.setTopic(widget.topic);
     }
 
     public RosData getLastRosData() {

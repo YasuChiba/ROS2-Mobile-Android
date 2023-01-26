@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -29,10 +30,10 @@
         </activity>
 
         <service
-            android:name=".model.repositories.rosRepo.node.NodeMainExecutorService"
+            android:name=".model.repositories.rosRepo.node.Ros2Service"
             android:exported="true">
             <intent-filter>
-                <action android:name="org.ros.android.NodeMainExecutorService" />
+                <action android:name="org.ros.android.Ros2Service" />
             </intent-filter>
         </service>
     </application>

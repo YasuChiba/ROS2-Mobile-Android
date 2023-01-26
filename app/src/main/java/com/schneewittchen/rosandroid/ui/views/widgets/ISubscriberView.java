@@ -1,6 +1,6 @@
 package com.schneewittchen.rosandroid.ui.views.widgets;
 
-import org.ros.internal.message.Message;
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 
 /**
@@ -12,5 +12,5 @@ import org.ros.internal.message.Message;
  */
 public interface ISubscriberView {
 
-    void onNewMessage(Message message);
+    void onNewMessage(MessageDefinition message);
 }

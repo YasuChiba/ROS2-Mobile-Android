@@ -11,11 +11,13 @@ import com.schneewittchen.rosandroid.R;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.ui.views.details.PublisherWidgetViewHolder;
 
+import org.ros2.rcljava.interfaces.MessageDefinition;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import geometry_msgs.Twist;
+import geometry_msgs.msg.Twist;
 
 
 /**
@@ -133,7 +135,7 @@ public class JoystickDetailVH extends PublisherWidgetViewHolder {
     }
 
     @Override
-    public List<String> getTopicTypes() {
-        return Collections.singletonList(Twist._TYPE);
+    public List<Class<? extends MessageDefinition>> getTopicTypes() {
+        return Collections.singletonList(Twist.class);
     }
 }

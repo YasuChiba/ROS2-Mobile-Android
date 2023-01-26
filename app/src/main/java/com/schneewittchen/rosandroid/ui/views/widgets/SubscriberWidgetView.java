@@ -3,7 +3,7 @@ package com.schneewittchen.rosandroid.ui.views.widgets;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import org.ros.internal.message.Message;
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 
 /**
@@ -26,7 +26,7 @@ public abstract class SubscriberWidgetView extends WidgetView implements ISubscr
 
 
     @Override
-    public void onNewMessage(Message message) {
+    public void onNewMessage(MessageDefinition message) {
         return;
     }
 

@@ -3,8 +3,8 @@ package com.schneewittchen.rosandroid.model.repositories.rosRepo.node;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 
-import org.ros.internal.message.Message;
-import org.ros.node.topic.Publisher;
+import org.ros2.rcljava.interfaces.MessageDefinition;
+import org.ros2.rcljava.publisher.Publisher;
 
 
 public abstract class BaseData {
@@ -19,7 +19,7 @@ public abstract class BaseData {
         this.topic = topic;
     }
 
-    public Message toRosMessage(Publisher<Message> publisher, BaseEntity widget) {
+    public MessageDefinition toRosMessage(Publisher<MessageDefinition> publisher, BaseEntity widget) {
         return null;
     }
 }

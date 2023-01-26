@@ -30,7 +30,7 @@ import com.schneewittchen.rosandroid.ui.views.widgets.WidgetView;
 import com.schneewittchen.rosandroid.utility.Constants;
 import com.schneewittchen.rosandroid.utility.Utils;
 
-import org.ros.internal.message.Message;
+import org.ros2.rcljava.interfaces.MessageDefinition;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -210,7 +210,7 @@ public class WidgetViewGroup extends ViewGroup {
     }
 
     public void onNewData(RosData data) {
-        Message message = data.getMessage();
+        MessageDefinition message = data.getMessage();
         Topic topic = data.getTopic();
 
         for (int i = 0; i < this.getChildCount(); i++) {
