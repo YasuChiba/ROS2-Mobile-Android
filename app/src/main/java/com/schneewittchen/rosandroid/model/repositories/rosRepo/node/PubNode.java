@@ -32,13 +32,14 @@ public class PubNode extends AbstractNode {
         super(topic);
         this.topic = topic;
         this.widget = widget;
-        if (!(widget instanceof PublisherLayerEntity)) {
-            return;
-        }
 
         Class<MessageDefinition> t = (Class<MessageDefinition>) MessageTypeConverter.toType(topic.type);
         this.publisher = this.node.createPublisher(t, topic.name);
 
+
+        if (!(widget instanceof PublisherLayerEntity)) {
+            return;
+        }
         PublisherLayerEntity pubEntity = (PublisherLayerEntity) widget;
         this.setImmediatePublish(pubEntity.immediatePublish);
         this.setFrequency(pubEntity.publishRate);    }

@@ -67,7 +67,7 @@ public class RosDomain {
         currentMaster = Transformations.switchMap(configRepository.getCurrentConfigId(),
                 configRepository::getMaster);
 
-        //currentWidgets.observeForever(rosRepo::updateWidgets);
+        currentWidgets.observeForever(rosRepo::updateWidgets);
         //currentMaster.observeForever(rosRepo::updateMaster);
     }
 

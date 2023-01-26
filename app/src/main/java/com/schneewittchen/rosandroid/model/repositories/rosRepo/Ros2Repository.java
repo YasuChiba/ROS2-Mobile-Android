@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import geometry_msgs.msg.Transform;
+
 public class Ros2Repository implements SubNode.NodeListener{
     private static final String TAG = Ros2Repository.class.getSimpleName();
 
@@ -50,6 +52,7 @@ public class Ros2Repository implements SubNode.NodeListener{
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             ros2Service = ((Ros2Service.LocalBinder) binder).getService();
+            initStaticNodes();
             registerAllNodes();
         }
 
@@ -64,7 +67,7 @@ public class Ros2Repository implements SubNode.NodeListener{
         this.currentNodes = new HashMap<>();
         this.receivedData = new MutableLiveData<>();
 
-        this.initStaticNodes();
+        startRos2();
     }
 
     public static Ros2Repository getInstance(final Context context) {
@@ -76,7 +79,13 @@ public class Ros2Repository implements SubNode.NodeListener{
     }
 
     private void initStaticNodes() {
-        // TODO
+        Topic tfTopic = new Topic("tf", Transform.class.getCanonicalName());
+        SubNode tfNode = new SubNode(this, tfTopic, null);
+        currentNodes.put(tfTopic, tfNode);
+
+        Topic tfStaticTopic = new Topic("tf_static", Transform.class.getCanonicalName());
+        SubNode tfStaticNode = new SubNode(this, tfStaticTopic, null);
+        currentNodes.put(tfStaticTopic, tfStaticNode);
     }
 
     private void startRos2() {
