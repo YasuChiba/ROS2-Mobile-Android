@@ -3,6 +3,7 @@ package com.schneewittchen.rosandroid.model.repositories.rosRepo.node;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
+import com.schneewittchen.rosandroid.utility.MessageTypeConverter;
 
 import org.ros2.rcljava.interfaces.MessageDefinition;
 import org.ros2.rcljava.subscription.Subscription;
@@ -26,7 +27,9 @@ public class SubNode extends AbstractNode {
         this.widget = widget;
 
         this.listener = listener;
-        this.subscription = this.node.createSubscription(topic.type, topic.name, data -> {
+
+        Class<MessageDefinition> t = (Class<MessageDefinition>) MessageTypeConverter.toType(topic.type);
+        this.subscription = this.node.createSubscription(t, topic.name, data -> {
             this.listener.onNewMessage(new RosData(topic, data));
         });
     }

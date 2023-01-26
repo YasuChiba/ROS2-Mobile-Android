@@ -95,7 +95,8 @@ class SubscriberViewHolder implements IBaseViewHolder {
     @Override
     public void baseUpdateEntity(BaseEntity entity) {
         entity.topic.name = topicNameTextView.getText().toString();
-        entity.topic.type = topicTypeEditText.getText().toString();
+        //entity.topic.type = topicTypeEditText.getText().toString();
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private void selectNameItem(int position) {

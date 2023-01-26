@@ -20,10 +20,10 @@ public class Topic {
     /**
      * Type of the topic e.g. 'nav_msgs.OccupancyGrid'
      */
-    public Class<? extends MessageDefinition> type;
+    public String type;
 
 
-    public Topic(String name, Class<? extends MessageDefinition> type) {
+    public Topic(String name, String type) {
         this.name = name;
         this.type = type;
     }

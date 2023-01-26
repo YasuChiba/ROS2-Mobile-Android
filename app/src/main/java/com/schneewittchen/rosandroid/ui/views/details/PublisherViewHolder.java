@@ -11,6 +11,8 @@ import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.utility.Utils;
 import com.schneewittchen.rosandroid.viewmodel.DetailsViewModel;
 
+import org.ros2.rcljava.interfaces.MessageDefinition;
+
 import java.util.List;
 
 
@@ -25,7 +27,7 @@ public class PublisherViewHolder implements IBaseViewHolder, TextView.OnEditorAc
 
     public static final String TAG = PublisherViewHolder.class.getSimpleName();
     private final DetailViewHolder parentViewHolder;
-    public List<String> topicTypes;
+    public List<Class<? extends MessageDefinition>> topicTypes;
     public DetailsViewModel viewModel;
     private TextInputEditText topicNameEditText;
     private TextInputEditText topicTypeEditText;

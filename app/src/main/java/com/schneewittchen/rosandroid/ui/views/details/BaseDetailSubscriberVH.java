@@ -97,7 +97,7 @@ public abstract class BaseDetailSubscriberVH<T extends SubscriberWidgetEntity> e
         super.baseUpdateEntity();
 
         entity.topic.name = topicNameTextView.getText().toString();
-        entity.topic.type = topicTypeEditText.getText().toString();
+        //entity.topic.type = topicTypeEditText.getText().toString();
     }
 
 
