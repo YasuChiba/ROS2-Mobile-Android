@@ -118,6 +118,15 @@ public class Utils {
         }
     }
 
+    public static Class<?> getClassTypeFromAbsoluteClassName(String absoluteClassName) {
+        try {
+            Class<?> cls = Class.forName(absoluteClassName);
+            return cls;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public static int getResId(String resName, Class<?> clazz) {
         try {
             Field idField = clazz.getDeclaredField(resName);

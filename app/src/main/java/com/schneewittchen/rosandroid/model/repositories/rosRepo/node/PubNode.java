@@ -4,6 +4,7 @@ import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.PublisherLayerEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 import com.schneewittchen.rosandroid.utility.MessageTypeConverter;
+import com.schneewittchen.rosandroid.utility.Utils;
 
 import org.ros2.rcljava.interfaces.MessageDefinition;
 import org.ros2.rcljava.publisher.Publisher;
@@ -33,9 +34,8 @@ public class PubNode extends AbstractNode {
         this.topic = topic;
         this.widget = widget;
 
-        Class<MessageDefinition> t = (Class<MessageDefinition>) MessageTypeConverter.toType(topic.type);
+        Class<MessageDefinition> t = (Class<MessageDefinition>)Utils.getClassTypeFromAbsoluteClassName(topic.type);
         this.publisher = this.node.createPublisher(t, topic.name);
-
 
         if (!(widget instanceof PublisherLayerEntity)) {
             return;
