@@ -25,7 +25,8 @@ public abstract class AbstractNode extends BaseComposableNode {
 
     public AbstractNode(Topic topic) {
         // set topic name as node name
-        super(topic.name);
+        // only alphanumeric (and _ )allowed
+        super(topic.name.replaceAll("[^A-Za-z0-9]", ""));
     }
 
     /*
