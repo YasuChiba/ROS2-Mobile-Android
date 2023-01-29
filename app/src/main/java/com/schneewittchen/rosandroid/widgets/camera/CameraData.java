@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.common.primitives.Bytes;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -52,7 +53,7 @@ public class CameraData extends BaseData {
         Bitmap.Config config = null;
 
         // Get the data
-        byte[] data = ArrayUtils.toPrimitive((Byte[]) image.getData().toArray());
+        byte[] data = Bytes.toArray(image.getData());
         int height = image.getHeight();
         int width = image.getWidth();
         int step = image.getStep();
