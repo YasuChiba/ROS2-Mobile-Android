@@ -21,6 +21,7 @@ import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractNode;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.ManagerNode;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.PubNode;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.Ros2Service;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.SubNode;
@@ -47,6 +48,8 @@ public class Ros2Repository implements SubNode.NodeListener{
     private final MutableLiveData<RosData> receivedData;
 
     private final WeakReference<Context> contextReference;
+
+    private ManagerNode managerNode;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -86,6 +89,9 @@ public class Ros2Repository implements SubNode.NodeListener{
         Topic tfStaticTopic = new Topic("tf_static", Transform.class.getCanonicalName());
         SubNode tfStaticNode = new SubNode(this, tfStaticTopic, null);
         currentNodes.put(tfStaticTopic, tfStaticNode);
+
+        managerNode = new ManagerNode();
+        currentNodes.put(managerNode.getTopic(), managerNode);
     }
 
     private void startRos2() {
@@ -272,23 +278,7 @@ public class Ros2Repository implements SubNode.NodeListener{
      * @return Topic list
      */
     public List<Topic> getTopicList() {
-        ArrayList<Topic> topicList = new ArrayList<>();
-
-        // TODO
-        /*
-        GraphName graphName = GraphName.newAnonymous();
-        Response<List<TopicType>> responseList = masterClient.getTopicTypes(graphName);
-
-        for (TopicType result : responseList.getResult()) {
-            String name = result.getName();
-            String type = result.getMessageType();
-
-            Topic rosTopic = new Topic(name, type);
-            topicList.add(rosTopic);
-        }
-
-         */
-
+        List<Topic> topicList = managerNode.getTopics();
         return topicList;
     }
 

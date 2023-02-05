@@ -19,6 +19,7 @@ import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractNod
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
 import com.schneewittchen.rosandroid.utility.LambdaTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -141,6 +142,9 @@ public class RosDomain {
 
     public List<Topic> getTopicList() {
         return rosRepo.getTopicList();
+        //ArrayList a =  new ArrayList<String>();
+        //a.add(new Topic("/camera/color/image_raw", "sensor_msgs.msg.Image"));
+        //return a;
     }
 
     public HashMap<Topic, AbstractNode> getLastRosData() {
