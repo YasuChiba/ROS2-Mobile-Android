@@ -25,7 +25,7 @@ public class Topic {
 
     public Topic(String name, String type) {
         this.name = name;
-        this.type = type;
+        this.type = type.replace("/", ".");
     }
 
     public Topic(Topic other) {
