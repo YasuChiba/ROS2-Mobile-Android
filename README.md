@@ -1,6 +1,37 @@
 
-# !!!!WIP!!!!
-porting ROS-Mobile-Android to ros2
+# **!!!!WIP!!!!**
+This project trying to port ROS-Mobile-Android to ros2
+
+## Supporting Widgets
+- [x] battery
+- [x] button
+- [ ] camera
+  - ros2_java related issues :(
+- [ ] debug
+- [x] gps
+- [ ] gridmap
+- [x] joystick
+- [x] label
+- [ ] laserscan
+- [ ] logger
+- [ ] path
+- [ ] pose
+- [ ] rqtplot
+- [x] switchbutton
+- [ ] touchgoal
+- [ ] viz2d
+
+## How to run
+
+1. clone this repository
+1. build rcljava
+   - follow the instruction of [this repo](https://github.com/YasuChiba/ros2-android-build)
+   - copy all the generated `.jar` files and `.so` files into `app/libs` and `src/main/jniLibs/arm64-v8a` directories.
+1. now you can run :)
+
+---
+---
+---
 
 # ROS-Mobile
 
