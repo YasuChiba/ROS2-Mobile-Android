@@ -12,14 +12,14 @@ This project trying to port ROS-Mobile-Android to ros2
 - [ ] gridmap
 - [x] joystick
 - [x] label
-- [ ] laserscan
+- [x] laserscan
 - [ ] logger
 - [ ] path
 - [ ] pose
 - [ ] rqtplot
 - [x] switchbutton
 - [ ] touchgoal
-- [ ] viz2d
+- [x] viz2d
 
 ## How to run
 

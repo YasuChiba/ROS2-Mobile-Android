@@ -49,7 +49,14 @@ public class Topic {
 
         Topic other = (Topic) object;
 
-        return other.name.equals(name) && other.type.equals(type);
+        return compareNullable(other.name, this.name)&& compareNullable(other.type, this.type);
+    }
+
+    private boolean compareNullable(String str1, String str2) {
+        if (str1 == null) {
+            return str2 == null;
+        }
+        return str1.equals(str2);
     }
 
     @Override
