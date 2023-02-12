@@ -10,7 +10,7 @@ import com.schneewittchen.rosandroid.domain.RosDomain;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractNode;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractTopic;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
 
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class VizViewModel extends AndroidViewModel {
         rosDomain.publishData(data);
     }
 
-    public HashMap<Topic, AbstractNode> getLastRosData() {
+    public HashMap<Topic, AbstractTopic> getLastRosData() {
         return rosDomain.getLastRosData();
     }
 }

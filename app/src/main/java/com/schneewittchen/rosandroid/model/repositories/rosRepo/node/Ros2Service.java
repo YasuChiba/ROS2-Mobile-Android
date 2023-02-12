@@ -16,6 +16,7 @@ import com.schneewittchen.rosandroid.model.repositories.rosRepo.Ros2Repository;
 import org.ros2.rcljava.RCLJava;
 import org.ros2.rcljava.executors.Executor;
 import org.ros2.rcljava.executors.SingleThreadedExecutor;
+import org.ros2.rcljava.node.BaseComposableNode;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -95,13 +96,13 @@ public class Ros2Service extends Service {
         return binder;
     }
 
-    public void registerNode(AbstractNode node) {
-        Log.i(TAG, "Register Node: " + node.getTopic().name);
+    public void registerNode(BaseComposableNode node) {
+        Log.i(TAG, "Register Node: " + node.getNode().getName());
         rosExecutor.addNode(node);
     }
 
-    public void unregisterNode(AbstractNode node) {
-        Log.i(TAG, "Unregister Node: " + node.getTopic().name);
+    public void unregisterNode(BaseComposableNode node) {
+        Log.i(TAG, "Unregister Node: " + node.getNode().getName());
         rosExecutor.removeNode(node);
     }
 

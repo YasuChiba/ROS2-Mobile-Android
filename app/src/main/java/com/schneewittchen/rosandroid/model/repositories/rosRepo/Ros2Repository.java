@@ -16,35 +16,37 @@ import com.schneewittchen.rosandroid.model.entities.widgets.GroupEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.IPublisherEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.ISilentEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.ISubscriberEntity;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.connection.ConnectionType;
+import com.schneewittchen.rosandroid.model.entities.widgets.SubscriberLayerEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractNode;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractTopic;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.ManagerNode;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.PubNode;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.PubTopic;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.Ros2Service;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.SubNode;
-
-import org.ros2.rcljava.RCLJava;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.SubTopic;
+import com.schneewittchen.rosandroid.utility.ros.geometry.FrameTransformTree;
 
 import java.lang.ref.WeakReference;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import geometry_msgs.msg.Transform;
+import geometry_msgs.msg.TransformStamped;
+import tf2_msgs.msg.TFMessage;
 
-public class Ros2Repository implements SubNode.NodeListener{
+public class Ros2Repository implements ManagerNode.NodeListener{
     private static final String TAG = Ros2Repository.class.getSimpleName();
 
     private static Ros2Repository instance;
 
     private Ros2Service ros2Service;
+    private final FrameTransformTree frameTransformTree;
 
     private final List<BaseEntity> currentWidgets;
-    private final HashMap<Topic, AbstractNode> currentNodes;
+
+    private final HashMap<Topic, AbstractTopic> currentTopics;
+
     private final MutableLiveData<RosData> receivedData;
 
     private final WeakReference<Context> contextReference;
@@ -55,8 +57,9 @@ public class Ros2Repository implements SubNode.NodeListener{
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             ros2Service = ((Ros2Service.LocalBinder) binder).getService();
-            initStaticNodes();
-            registerAllNodes();
+            initManagerNode();
+            initStaticTopics();
+            registerAllTopics();
         }
 
         @Override
@@ -67,8 +70,9 @@ public class Ros2Repository implements SubNode.NodeListener{
     private Ros2Repository(Context context) {
         this.contextReference = new WeakReference<>(context);
         this.currentWidgets = new ArrayList<>();
-        this.currentNodes = new HashMap<>();
+        this.currentTopics = new HashMap<>();
         this.receivedData = new MutableLiveData<>();
+        this.frameTransformTree = TransformProvider.getInstance().getTree();
 
         startRos2();
     }
@@ -81,17 +85,29 @@ public class Ros2Repository implements SubNode.NodeListener{
         return instance;
     }
 
-    private void initStaticNodes() {
-        Topic tfTopic = new Topic("tf", Transform.class.getCanonicalName());
-        SubNode tfNode = new SubNode(this, tfTopic, null);
-        currentNodes.put(tfTopic, tfNode);
+    private void initManagerNode() {
+        this.managerNode = new ManagerNode(this);
+        ros2Service.registerNode(this.managerNode);
+    }
 
-        Topic tfStaticTopic = new Topic("tf_static", Transform.class.getCanonicalName());
-        SubNode tfStaticNode = new SubNode(this, tfStaticTopic, null);
-        currentNodes.put(tfStaticTopic, tfStaticNode);
+    private void initStaticTopics() {
+        BaseEntity tfWidget = new SubscriberLayerEntity() {
+            @Override
+            public boolean equalRosState(BaseEntity other) {
+                return super.equalRosState(other);
+            }
+        };
+        tfWidget.topic = new Topic("tf", TFMessage.class.getCanonicalName());
+        registerTopic(tfWidget);
 
-        managerNode = new ManagerNode();
-        currentNodes.put(managerNode.getTopic(), managerNode);
+        BaseEntity tfStaticWidget = new SubscriberLayerEntity() {
+            @Override
+            public boolean equalRosState(BaseEntity other) {
+                return super.equalRosState(other);
+            }
+        };
+        tfStaticWidget.topic = new Topic("tf_static", TFMessage.class.getCanonicalName());
+        registerTopic(tfStaticWidget);
     }
 
     private void startRos2() {
@@ -111,19 +127,24 @@ public class Ros2Repository implements SubNode.NodeListener{
 
     @Override
     public void onNewMessage(RosData message) {
-        //TODO TFMessageのときの条件わけ
+        // Save transforms from tf messages
+        if (message.getMessage() instanceof TFMessage) {
+            TFMessage tf = (TFMessage) message.getMessage();
+
+            for (TransformStamped transform: tf.getTransforms()) {
+                frameTransformTree.update(transform);
+            }
+        }
 
         this.receivedData.postValue(message);
     }
 
     public void publishData(BaseData data) {
-        AbstractNode node = currentNodes.get(data.getTopic());
-
-        if (node instanceof PubNode) {
-            ((PubNode) node).setData(data);
+        AbstractTopic topic = currentTopics.get(data.getTopic());
+        if(topic instanceof PubTopic) {
+            ((PubTopic) topic).setData(data);
         }
     }
-
 
     /**
      * React on a widget change. If at least one widget is added, deleted or changed this method
@@ -166,11 +187,11 @@ public class Ros2Repository implements SubNode.NodeListener{
 
                 // Check if widget has changed
                 BaseEntity oldWidget = widgetEntryMap.get(newWidget.id);
-                updateNode(oldWidget, newWidget);
+                updateTopic(oldWidget, newWidget);
 
             } else {
                 // Node not included in old list
-                addNode(newWidget);
+                registerTopic(newWidget);
             }
         }
 
@@ -178,7 +199,7 @@ public class Ros2Repository implements SubNode.NodeListener{
         for (Long id : widgetCheckMap.keySet()) {
             if (!widgetCheckMap.get(id)) {
                 // Node not included in new list
-                removeNode(widgetEntryMap.get(id));
+                deregisterTopic(widgetEntryMap.get(id));
             }
         }
 
@@ -186,90 +207,61 @@ public class Ros2Repository implements SubNode.NodeListener{
         this.currentWidgets.addAll(newEntities);
     }
 
-    private AbstractNode addNode(BaseEntity widget) {
+    private AbstractTopic registerTopic(BaseEntity widget) {
         if (widget instanceof ISilentEntity) return null;
-        Log.i(TAG, "Add node: " + widget.name);
+        Log.i(TAG, "Add topic: " + widget.name);
 
-        // Create a new node from widget
-        AbstractNode node;
+        // Create a new topic from widget
+        AbstractTopic topic;
         if (widget instanceof IPublisherEntity) {
-            node = new PubNode(widget.topic, widget);
+            topic = managerNode.registerPubTopic(widget);
 
         } else if (widget instanceof ISubscriberEntity) {
-            node = new SubNode(this, widget.topic, widget);
+            topic = managerNode.registerSubNode(widget);
 
         } else {
             Log.i(TAG, "Widget is either publisher nor subscriber.");
             return null;
         }
 
-        currentNodes.put(node.getTopic(), node);
-        this.registerNode(node);
-
-        return node;
+        currentTopics.put(widget.topic, topic);
+        return topic;
     }
 
-
-    /**
-     * Update a widget and its associated Node by ID in the ROS graph.
-     *
-     * @param oldWidget Old version of the widget
-     * @param widget    Widget to update
-     */
-    private void updateNode(BaseEntity oldWidget, BaseEntity widget) {
+    private void updateTopic(BaseEntity oldWidget, BaseEntity widget) {
         if (widget instanceof ISilentEntity) return;
-        Log.i(TAG, "Update Node: " + oldWidget.name);
-        this.removeNode(oldWidget);
-        this.addNode(widget);
+        Log.i(TAG, "Update topic: " + oldWidget.name);
+
+        this.deregisterTopic(oldWidget);
+        this.registerTopic(widget);
     }
 
-    /**
-     * Remove a widget and its associated Node in the ROS graph.
-     *
-     * @param widget Widget to remove
-     */
-    private void removeNode(BaseEntity widget) {
+
+    private void deregisterTopic(BaseEntity widget) {
         if (widget instanceof ISilentEntity) return;
-        Log.i(TAG, "Remove Node: " + widget.name);
+        Log.i(TAG, "Remove topic: " + widget.name);
 
-        AbstractNode node = this.currentNodes.remove(widget.topic);
-        this.unregisterNode(node);
-    }
-
-
-    /**
-     *
-     * @param node Node to connect
-     */
-    private void registerNode(AbstractNode node) {
-        Log.i(TAG, "Register Node: " + node.getTopic().name);
-        ros2Service.registerNode(node);
-    }
-
-    private void registerAllNodes() {
-        for (AbstractNode node : currentNodes.values()) {
-            this.registerNode(node);
+        AbstractTopic topic = this.currentTopics.remove(widget.topic);
+        if(topic instanceof PubTopic) {
+            this.managerNode.deregisterPubTopic((PubTopic) topic);
+        } else if(topic instanceof  SubTopic) {
+            this.managerNode.deregisterSubTopic((SubTopic) topic);
         }
     }
 
-    /**
-     * Disconnect the node from ROS node graph if a connection to the ROS master is running.
-     *
-     * @param node Node to disconnect
-     */
-    private void unregisterNode(AbstractNode node) {
-        if (node == null) return;
-
-        Log.i(TAG, "Unregister Node: " + node.getTopic().name);
-        ros2Service.unregisterNode(node);
+    private void registerAllTopics() {
+        for (AbstractTopic topic : currentTopics.values()) {
+            this.registerTopic(topic.widget);
+        }
     }
+
 
     public LiveData<RosData> getData() {
         return receivedData;
     }
 
-    public HashMap<Topic, AbstractNode> getLastRosData() {
-        return currentNodes;
+    public HashMap<Topic, AbstractTopic> getLastRosData() {
+        return currentTopics;
     }
 
     /**
@@ -291,7 +283,6 @@ public class Ros2Repository implements SubNode.NodeListener{
         }
 
         //this.master = master;
-
         // nodeConfiguration = NodeConfiguration.newPublic(master.deviceIp, getMasterURI());
     }
 

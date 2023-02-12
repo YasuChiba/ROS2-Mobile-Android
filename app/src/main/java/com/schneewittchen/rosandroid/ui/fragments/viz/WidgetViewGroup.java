@@ -16,8 +16,9 @@ import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.IPositionEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractNode;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractTopic;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.SubTopic;
 import com.schneewittchen.rosandroid.ui.general.DataListener;
 import com.schneewittchen.rosandroid.ui.general.Position;
 import com.schneewittchen.rosandroid.ui.general.WidgetChangeListener;
@@ -231,7 +232,7 @@ public class WidgetViewGroup extends ViewGroup {
         }
     }
 
-    public void setWidgets(List<BaseEntity> newWidgets, HashMap<Topic, AbstractNode> map) {
+    public void setWidgets(List<BaseEntity> newWidgets, HashMap<Topic, AbstractTopic> map) {
         boolean changes = false;
 
         // Create widget check with ids
@@ -278,7 +279,7 @@ public class WidgetViewGroup extends ViewGroup {
     }
 
 
-    private void addViewFor(BaseEntity entity, HashMap<Topic, AbstractNode> map) {
+    private void addViewFor(BaseEntity entity, HashMap<Topic, AbstractTopic> map) {
         Log.i(TAG, "Add view for " + entity.name);
 
         IBaseView baseView = createViewFrom(entity);
@@ -297,7 +298,11 @@ public class WidgetViewGroup extends ViewGroup {
 
                 if (subView instanceof ISubscriberView) {
                     if (map.get(subEntity.topic) != null) {
-                        RosData lastData = map.get(subEntity.topic).getLastRosData();
+                        AbstractTopic topic = map.get(subEntity.topic);
+                        RosData lastData = null;
+                        if(topic instanceof SubTopic) {
+                            lastData = ((SubTopic)topic).getLastRosData();
+                        }
 
                         if (lastData != null) {
                             if (lastData.getMessage() != null) {

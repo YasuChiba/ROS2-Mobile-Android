@@ -2,8 +2,8 @@ package com.schneewittchen.rosandroid.model.repositories.rosRepo.node;
 
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.PublisherLayerEntity;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
-import com.schneewittchen.rosandroid.utility.Utils;
 
 import org.ros2.rcljava.interfaces.MessageDefinition;
 import org.ros2.rcljava.publisher.Publisher;
@@ -11,37 +11,25 @@ import org.ros2.rcljava.publisher.Publisher;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * ROS Node for publishing Messages on a specific topic.
- *
- * @author Nico Studt
- * @version 1.0.0
- * @created on 16.09.20
- * @updated on
- * @modified by
- */
-public class PubNode extends AbstractNode {
+public class PubTopic extends AbstractTopic {
 
-    private Publisher<MessageDefinition> publisher;
+    protected Publisher<MessageDefinition> publisher;
     private BaseData lastData;
     private Timer pubTimer;
     private long pubPeriod = 100L;
     private boolean immediatePublish = true;
 
-    public PubNode(Topic topic, BaseEntity widget) {
-        super(topic);
-        this.topic = topic;
+    public PubTopic(BaseEntity widget) {
         this.widget = widget;
-
-        Class<MessageDefinition> t = (Class<MessageDefinition>)Utils.getClassTypeFromAbsoluteClassName(topic.type);
-        this.publisher = this.node.createPublisher(t, topic.name);
 
         if (!(widget instanceof PublisherLayerEntity)) {
             return;
         }
         PublisherLayerEntity pubEntity = (PublisherLayerEntity) widget;
         this.setImmediatePublish(pubEntity.immediatePublish);
-        this.setFrequency(pubEntity.publishRate);    }
+        this.setFrequency(pubEntity.publishRate);
+    }
+
 
     /**
      * Call this method to publish a ROS message.
@@ -77,7 +65,7 @@ public class PubNode extends AbstractNode {
         this.immediatePublish = flag;
     }
 
-    private void createAndStartSchedule() {
+    public void createAndStartSchedule() {
         if (pubTimer != null) {
             pubTimer.cancel();
         }
@@ -106,4 +94,5 @@ public class PubNode extends AbstractNode {
         MessageDefinition message = lastData.toRosMessage(publisher, widget);
         publisher.publish(message);
     }
+
 }

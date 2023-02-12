@@ -15,7 +15,7 @@ import com.schneewittchen.rosandroid.model.repositories.rosRepo.Ros2Repository;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.connection.ConnectionType;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.RosData;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
-import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractNode;
+import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.AbstractTopic;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.node.BaseData;
 import com.schneewittchen.rosandroid.utility.LambdaTask;
 
@@ -147,7 +147,7 @@ public class RosDomain {
         //return a;
     }
 
-    public HashMap<Topic, AbstractNode> getLastRosData() {
+    public HashMap<Topic, AbstractTopic> getLastRosData() {
         return rosRepo.getLastRosData();
     }
 }
