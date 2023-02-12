@@ -10,7 +10,6 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.schneewittchen.rosandroid.model.entities.MasterEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.GroupEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.IPublisherEntity;
@@ -273,17 +272,4 @@ public class Ros2Repository implements ManagerNode.NodeListener{
         List<Topic> topicList = managerNode.getTopics();
         return topicList;
     }
-
-    public void updateMaster(MasterEntity master) {
-        Log.i(TAG, "Update Master");
-
-        if(master == null) {
-            Log.i(TAG, "Master is null");
-            return;
-        }
-
-        //this.master = master;
-        // nodeConfiguration = NodeConfiguration.newPublic(master.deviceIp, getMasterURI());
-    }
-
 }

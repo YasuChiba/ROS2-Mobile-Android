@@ -15,84 +15,15 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Master node URI"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout2"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/master_ip_hint"
-            app:boxBackgroundMode="outline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/master_ip_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789/."
-                android:imeOptions="actionDone"
-                android:inputType="number|numberDecimal|phone"
-                android:singleLine="true" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/master_port_inputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/master_port_hint"
-            app:boxBackgroundMode="outline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_layout2">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/master_port_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:singleLine="true" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
             android:id="@+id/WifiText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:text="Wi-Fi"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/master_port_inputLayout" />
-
-        <TextView
-            android:id="@+id/wifiText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Status"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ipAddessLayout" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/wifiImageView"
@@ -109,7 +40,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:hint="Network SSID"
             app:boxBackgroundMode="outline"
             app:endIconCheckable="false"
@@ -117,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/wifiImageView"
-            app:layout_constraintTop_toBottomOf="@id/WifiText">
+            app:layout_constraintTop_toBottomOf="@+id/WifiText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/NetworkSSIDText"
@@ -160,83 +90,6 @@
                 tools:layout_editor_absoluteX="30dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/connectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/button_connect"
-            android:textColor="@color/black01dp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/statusText" />
-
-        <Button
-            android:id="@+id/disconnectButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_disconnect"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/connectButton" />
-
-        <ProgressBar
-            android:id="@+id/pendingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/connectButton"
-            app:layout_constraintEnd_toEndOf="@+id/connectButton"
-            app:layout_constraintStart_toStartOf="@+id/connectButton"
-            app:layout_constraintTop_toTopOf="@+id/connectButton" />
-
-        <TextView
-            android:id="@+id/statusText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/disconnected"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toEndOf="@+id/connectedImage"
-            app:layout_constraintTop_toBottomOf="@+id/wifiText" />
-
-        <ImageView
-            android:id="@+id/connectedImage"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/statusText"
-            app:layout_constraintStart_toStartOf="@+id/wifiText"
-            app:layout_constraintTop_toTopOf="@+id/statusText"
-            app:srcCompat="@drawable/ic_connected"
-            app:tint="@color/ok_green" />
-
-        <ImageView
-            android:id="@+id/disconnectedImage"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/statusText"
-            app:layout_constraintStart_toStartOf="@+id/wifiText"
-            app:layout_constraintTop_toTopOf="@+id/statusText"
-            app:srcCompat="@drawable/ic_connected"
-            app:tint="@color/delete_red" />
-
-        <Button
-            android:id="@+id/help_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/need_help_button"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/connectButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

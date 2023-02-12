@@ -3,7 +3,6 @@ package com.schneewittchen.rosandroid.model.repositories;
 import androidx.lifecycle.LiveData;
 
 import com.schneewittchen.rosandroid.model.entities.ConfigEntity;
-import com.schneewittchen.rosandroid.model.entities.MasterEntity;
 import com.schneewittchen.rosandroid.model.entities.SSHEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 
@@ -40,12 +39,6 @@ public interface ConfigRepository {
     LiveData<ConfigEntity> getConfig(long id);
 
     LiveData<ConfigEntity> getCurrentConfig();
-
-
-    void updateMaster(MasterEntity master);
-
-    LiveData<MasterEntity> getMaster(long configId);
-
 
     void addWidget(Long parentId, BaseEntity widget);
 

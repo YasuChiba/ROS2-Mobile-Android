@@ -12,7 +12,6 @@ import androidx.lifecycle.Transformations;
 
 import com.schneewittchen.rosandroid.model.db.DataStorage;
 import com.schneewittchen.rosandroid.model.entities.ConfigEntity;
-import com.schneewittchen.rosandroid.model.entities.MasterEntity;
 import com.schneewittchen.rosandroid.model.entities.SSHEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.model.entities.widgets.I2DLayerEntity;
@@ -96,11 +95,6 @@ public class ConfigRepositoryImpl implements ConfigRepository {
         new LambdaTask(() -> {
             long configId = mDataStorage.getLatestConfigDirect().id;
 
-            // Create new master connection
-            MasterEntity master = new MasterEntity();
-            master.configId = configId;
-            mDataStorage.addMaster(master);
-
             // Create new ssh connection
             SSHEntity sshEntity = new SSHEntity();
             sshEntity.configId = configId;
@@ -111,7 +105,6 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     @Override
     public void removeConfig(long configId) {
         mDataStorage.deleteConfig(configId);
-        mDataStorage.deleteMaster(configId);
         mDataStorage.deleteSSH(configId);
     }
 
@@ -272,19 +265,6 @@ public class ConfigRepositoryImpl implements ConfigRepository {
                 });
             }
         });
-    }
-
-
-    // Masters -------------------------------------------------------------------------------------
-
-    @Override
-    public void updateMaster(MasterEntity master) {
-        mDataStorage.updateMaster(master);
-    }
-
-    @Override
-    public LiveData<MasterEntity> getMaster(long configId) {
-        return mDataStorage.getMaster(configId);
     }
 
     // SSH -------------------------------------------------------------------------------------

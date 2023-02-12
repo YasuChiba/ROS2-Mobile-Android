@@ -9,7 +9,6 @@ import androidx.room.RoomDatabase;
 
 import com.schneewittchen.rosandroid.R;
 import com.schneewittchen.rosandroid.model.entities.ConfigEntity;
-import com.schneewittchen.rosandroid.model.entities.MasterEntity;
 import com.schneewittchen.rosandroid.model.entities.SSHEntity;
 import com.schneewittchen.rosandroid.model.entities.WidgetStorageData;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
@@ -37,7 +36,7 @@ import java.util.List;
  * @modified by Nico Studt
  */
 @Database(entities =
-        {ConfigEntity.class, MasterEntity.class, WidgetStorageData.class, SSHEntity.class},
+        {ConfigEntity.class, WidgetStorageData.class, SSHEntity.class},
         version = 6, exportSchema = false)
 public abstract class DataStorage extends RoomDatabase {
 
@@ -64,8 +63,6 @@ public abstract class DataStorage extends RoomDatabase {
 
     public abstract ConfigDao configDao();
 
-    public abstract MasterDao masterDao();
-
     public abstract WidgetDao widgetDao();
 
     public abstract SSHDao sshDao();
@@ -87,7 +84,6 @@ public abstract class DataStorage extends RoomDatabase {
 
     public void deleteConfig(long id) {
         new LambdaTask(() -> configDao().removeConfig(id)).execute();
-        new LambdaTask(() -> masterDao().delete(id)).execute();
         new LambdaTask(() -> sshDao().delete(id)).execute();
         new LambdaTask(() -> widgetDao().deleteWithConfigId(id)).execute();
     }
@@ -107,26 +103,6 @@ public abstract class DataStorage extends RoomDatabase {
     public LiveData<List<ConfigEntity>> getAllConfigs() {
         return configDao().getAllConfigs();
     }
-
-
-    // Master methods ------------------------------------------------------------------------------
-
-    public void addMaster(MasterEntity master) {
-        new LambdaTask(() -> masterDao().insert(master)).execute();
-    }
-
-    public void updateMaster(MasterEntity master) {
-        new LambdaTask(() -> masterDao().update(master)).execute();
-    }
-
-    public void deleteMaster(long configId) {
-        new LambdaTask(() -> masterDao().delete(configId)).execute();
-    }
-
-    public LiveData<MasterEntity> getMaster(long id) {
-        return masterDao().getMaster(id);
-    }
-
 
     // SSH methods ---------------------------------------------------------------------------------
 

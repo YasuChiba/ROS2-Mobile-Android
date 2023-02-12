@@ -124,7 +124,6 @@ public class ConfigurationsViewModel extends AndroidViewModel {
 
         for (ConfigEntity config : configList.getValue()) {
             if (config.name.equals(configName)) {
-                rosDomain.disconnectFromMaster();
                 configRepository.chooseConfig(config.id);
                 return;
             }
