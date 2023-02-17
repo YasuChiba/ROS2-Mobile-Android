@@ -130,6 +130,13 @@ public class VisualizationView extends GLSurfaceView {
         Topic topic = data.getTopic();
         boolean dirtyView = false;
 
+        if(message instanceof nav_msgs.msg.OccupancyGrid) {
+            System.out.println("occupancygrid");
+        }
+        if(message instanceof sensor_msgs.msg.LaserScan) {
+            System.out.println("laserscan");
+        }
+
         // Forward message to sub layers
         for (LayerView layer : getLayers()) {
             if (layer instanceof ISubscriberView) {

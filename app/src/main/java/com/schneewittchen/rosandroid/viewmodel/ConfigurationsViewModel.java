@@ -141,6 +141,4 @@ public class ConfigurationsViewModel extends AndroidViewModel {
     public LiveData<List<String>> getFavoriteConfigNames() {
         return this.favoriteConfigNames;
     }
-
-
 }
